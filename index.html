@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    <style>
+        body,
+        html {
+            padding: 0;
+            margin: 0;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        cursor {
+            font-weight: bolder;
+            font-style: normal;
+            padding-left: 2px;
+        }
+
+        cursor.stopped {
+            animation: blick .5s infinite;
+        }
+
+        @keyframes blick {
+
+            0%,
+            25%,
+            75%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <script src="markup.js"></script>
+    <script>
+        const { parseMarkupFile } = Markup(100)
+
+        parseMarkupFile('index.mu').then(html => {
+            document.body.innerHTML = html
+
+
+            document.querySelectorAll('write').forEach(elt => {
+                const content = elt.textContent
+
+                elt.textContent = ''
+
+                const contentElt = document.createElement('span')
+                elt.appendChild(contentElt)
+
+                const cursor = document.createElement('cursor')
+                cursor.innerText = '|'
+                elt.appendChild(cursor)
+
+                var i = 0
+                const interval = setInterval(() => {
+                    const rect = elt.getBoundingClientRect()
+
+                    if (rect.top >= 0 && rect.left >= 0 && rect.bottom <= window.innerHeight && rect.right <= window.innerWidth) {
+                        contentElt.textContent = content.substring(0, i++)
+
+                        if (i > content.length) {
+                            clearInterval(interval)
+                            cursor.classList.add('stopped')
+                            setTimeout(() => elt.textContent = content, 1000)
+                        }
+                    }
+                }, Math.min(90, 2000 / content.length))
+            })
+        })
+    </script>
+</body>
+
+</html>
