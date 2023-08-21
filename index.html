@@ -84,7 +84,7 @@
             
             document.querySelectorAll('greetings').forEach(elt => {
                 var greeting = "tenha uma boa manhâ!"
-                const hours = 18// new Date().getHours()
+                const hours = new Date().getHours()
                 
                 if (hours < 12) {
                     greeting = "tenha uma bom dia!"
