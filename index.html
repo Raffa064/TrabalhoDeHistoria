@@ -4,6 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title></title>
     <style>
         body,
@@ -46,7 +49,7 @@
     <script src="markup.js"></script>
     <script>
         const { parseMarkupFile } = Markup(100)
-
+        
         parseMarkupFile('index.mu').then(html => {
             document.body.innerHTML = html
 
@@ -77,6 +80,21 @@
                         }
                     }
                 }, Math.min(90, 2000 / content.length))
+            })
+            
+            document.querySelectorAll('greetings').forEach(elt => {
+                var greeting = "tenha uma boa manhâ!"
+                const hours = 18// new Date().getHours()
+                
+                if (hours < 12) {
+                    greeting = "tenha uma bom dia!"
+                } else if (hours < 18) {
+                    greeting = "tenha uma boa tarde!"
+                } else if (hours < 24) {
+                    greeting = "tenha uma boa noite!"
+                }
+            
+                elt.textContent = greeting
             })
         })
     </script>
